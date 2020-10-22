@@ -12,25 +12,14 @@ const TableComponent = ({data, maxEntries, allcurrentGenres, currentGenre}) => {
     const {headings, sortModel} = config;
 
     useEffect(() => {
-        data && currentGenre && setColumnHeadings(headings)
-    }, [data, currentGenre]);
+        data && setColumnHeadings(headings)
+    }, [data]);
 
     useEffect(() => {
         if (columnHeadings && data && currentGenre) {
             setupColsForTable();
             setupRowsForTable();
             setTableReady(true);
-            
-            let string = '';
-            for (const key in data[currentGenre][0]) {
-                if (typeof data[currentGenre][0][key] !== "string") {
-                    // console.log(key)
-                    data[currentGenre][0][key].map(part => {
-                        string += `${part['Source']}: ${part['Value']} `
-                    })
-                }
-            }
-            console.log(string)
         }
 
     }, [columnHeadings, data, currentGenre])
@@ -41,7 +30,7 @@ const TableComponent = ({data, maxEntries, allcurrentGenres, currentGenre}) => {
                 field: heading,
                 headerName: heading,
                 // sortComparator: 
-                // adjust this dynamically later?
+                // adjust this dynamically later? scrollable?
                 width: 300
             }
         });
@@ -52,8 +41,8 @@ const TableComponent = ({data, maxEntries, allcurrentGenres, currentGenre}) => {
     const setupRowsForTable = () => {
         const rows = data && data[currentGenre].map((movie, index) => {
             return {
+                // make this more unique
                 id: index,
-                // rating:
                 ...movie
             }
         })

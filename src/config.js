@@ -19,7 +19,7 @@ const config = {
         'imdbID',
         // removed Type
         // removed DVD
-        'BoxOffice',
+        // removed BoxOffice
         'Production',
         // removed Website
         // removed Response

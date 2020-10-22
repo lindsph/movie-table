@@ -50,12 +50,16 @@ const App = ({location}) => {
     if (data && allGenres) {
       const { pathname } = location;
       const route = pathname.replace(/\//g, '');
+      console.log(route)
+      // BROKEN WHEN THEY RELOAD ON CURRENT PAGE
       if (route === '') {
         // meaning they landed on "/"
         // could choose this more programmatically or based on preferences etc
         const genre = allGenres[0];
         history.push(`/${genre}`);
         setCurrentGenre(genre)
+      } else {
+        setCurrentGenre(route)
       }
     }
   }, [location, data, allGenres])
