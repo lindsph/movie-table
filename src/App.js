@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import TableComponent from './components/Table';
+import TableComponent from './components/Table/Table';
 import Navigation from './components/Navigation/Navigation';
 import './App.module.css';
 
@@ -46,6 +46,7 @@ const App = ({location}) => {
     fetchData();
   }, []);
 
+  // end page
   useEffect(() => {
     if (data && allGenres) {
       const { pathname } = location;

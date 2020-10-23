@@ -13,7 +13,7 @@ const config = {
         'Language',
         'Country',
         'Awards',
-        // removed Poster
+        'Poster',
         // removed Ratings (array) for now since data shows up in Metascore, imdbRating/imdbVotes
         'Metascore',
         'imdbID',
@@ -24,11 +24,7 @@ const config = {
         // removed Website
         // removed Response
 
-    ],
-    sortModel: [{
-        field: 'Released',
-        sort: "date"
-    }]
+    ]
 }
 
 export default config;

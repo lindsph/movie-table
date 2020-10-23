@@ -1,15 +1,15 @@
 import React, {useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
-import Header from './Header';
 import styles from './Navigation.module.css';
 
 const Navigation = () => {
 
     return (
-        <Header>
+        <header>
             <nav className={styles.navigation}>
                 <ul>
                     <li>
+                        {/* dynamically */}
                         <NavLink 
                             activeClassName={styles['is-active']}
                             to="/action"
@@ -43,7 +43,7 @@ const Navigation = () => {
                     </li>
                 </ul>
             </nav>
-        </Header>
+        </header>
     );
 };
 
