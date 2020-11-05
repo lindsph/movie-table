@@ -28,18 +28,15 @@ const App = ({location}) => {
         return res.json()
       })
       .then(jsonData => {
-        setLoading(false);
         setData(jsonData);
         setAllGenres(Object.keys(jsonData))
       })
       .catch(error => {
-        setLoading(false);
         setError(error.message);
       })
-
-    return () => {
-      setLoading(false);
-    }
+      .finally(() => {
+        setLoading(false);
+      })
   };
 
   useEffect(() => {

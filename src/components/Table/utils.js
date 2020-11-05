@@ -6,7 +6,6 @@ export const setupRowsForTable = (data, currentGenre) => {
             ...movie
         }
     })
-
     return rows || [];
 }
 
