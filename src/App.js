@@ -24,7 +24,7 @@ const App = ({ location }) => {
       fetch('peopledata.json')
     ]).then(responses => {
       // Get a JSON object from each of the responses
-      return Promise.all(responses.map(function (response) {
+      return Promise.all(responses.map(response => {
         return response.json();
       }));
     }).then(data => {
@@ -32,7 +32,6 @@ const App = ({ location }) => {
       const personData = data[1];
 
       const result = mergeData(movieData, personData);
-      console.log(result);
       setData(result);
       setAllGenres(Object.keys(result));
     }).catch(error => {
