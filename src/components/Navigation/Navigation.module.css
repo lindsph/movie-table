@@ -32,6 +32,7 @@ li a {
     text-decoration: none;
     transition: color 150ms ease-in 0s;
     font-weight: 400;
+    text-transform: capitalize;
 }
 
 a.is-active {

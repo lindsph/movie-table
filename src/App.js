@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter, useHistory } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -6,7 +6,7 @@ import TableComponent from './components/Table/Table';
 import Navigation from './components/Navigation/Navigation';
 import './App.module.css';
 
-const App = ({location}) => {
+const App = ({ location }) => {
   const maxEntries = 6;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,32 +18,65 @@ const App = ({location}) => {
 
   const fetchData = async () => {
     setLoading(true);
-    const response = await fetch('projectdata.json', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+
+    await Promise.all([
+      fetch('moviedata.json'),
+      fetch('peopledata.json')
+    ]).then(responses => {
+      // Get a JSON object from each of the responses
+      return Promise.all(responses.map(function (response) {
+        return response.json();
+      }));
+    }).then(data => {
+      const movieData = data[0];
+      const personData = data[1];
+
+      const result = mergeData(movieData, personData);
+      console.log(result);
+      setData(result);
+      setAllGenres(Object.keys(result));
+    }).catch(error => {
+      setError(error);
+    }).finally(() => {
+      setLoading(false);
     })
-      .then(res => {
-        return res.json()
+  };
+
+  const mergeData = (movieData, personData) => {
+    const mergedData = {};
+
+    Object.keys(movieData).forEach(genre => {
+      mergedData[genre] = movieData[genre].map((movie, index) => {
+        const directors = findPeople(personData, movie.Director_IDs);
+        const writers = findPeople(personData, movie.Writer_IDs);
+        const actors = findPeople(personData, movie.Actor_IDs);
+        return {
+          ...movie,
+          Director: directors.join(', '),
+          Writer: writers.join(', '),
+          Actors: actors.join(', ')
+        }
       })
-      .then(jsonData => {
-        setData(jsonData);
-        setAllGenres(Object.keys(jsonData))
-      })
-      .catch(error => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      })
+    })
+
+    return mergedData;
+  }
+
+  const findPeople = (peopleData, ids) => {
+    return ids.map((id) => {
+      const person = peopleData.find(person => person.id === id);
+      if (person) {
+        return `${person.firstName} ${person.lastName}`;
+      } 
+
+      return '';
+    })
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  // end page
   useEffect(() => {
     if (data && allGenres) {
       const { pathname } = location;
@@ -70,7 +103,9 @@ const App = ({location}) => {
 
   return (
     <>
-      <Navigation/>
+      <Navigation
+        allGenres={allGenres}
+      />
       <main>
         {loadingState}
         {errorState}

@@ -2,45 +2,23 @@ import React, {useEffect} from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Navigation.module.css';
 
-const Navigation = () => {
-
+const Navigation = ({allGenres}) => {
     return (
         <header>
             <nav className={styles.navigation}>
                 <ul>
-                    <li>
-                        {/* dynamically */}
-                        <NavLink 
-                            activeClassName={styles['is-active']}
-                            to="/action"
-                        >
-                        Action
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            activeClassName={styles['is-active']}
-                            to="/comedy"
-                        >
-                            Comedy
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            activeClassName={styles['is-active']}
-                            to="/drama"
-                        >
-                            Drama
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            activeClassName={styles['is-active']}
-                            to="/thriller"
-                        >
-                            Thriller
-                        </NavLink>
-                    </li>
+                    {allGenres ? allGenres.map((value, index) => {
+                        return (
+                            <li>
+                                <NavLink
+                                    activeClassName={styles['is-active']}
+                                    to={`/${value}`}
+                                    key={index}
+                                >
+                                    {value}
+                                </NavLink>
+                            </li>
+                    )}) : null}
                 </ul>
             </nav>
         </header>
